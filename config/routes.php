@@ -20,6 +20,6 @@ $routes->get('/note/new', function() {
     HelloWorldController::note_create();
 });
 
-$routes->get('/note/login', function() {
+$routes->get('/login', function() {
     HelloWorldController::login();
 });
