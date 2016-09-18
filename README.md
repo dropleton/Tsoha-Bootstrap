@@ -3,7 +3,7 @@
 Yleisiä linkkejä:
 
 * [Linkki sovellukseeni](http://jetolvan.users.cs.helsinki.fi/tsoha/)
-* [Linkki dokumentaatiooni](https://github.com/dropleton/Tsoha-Bootstrap/blob/master/doc/Johdanto.pdf)
+* [Linkki dokumentaatiooni](https://github.com/dropleton/Tsoha-Bootstrap/tree/master/doc)
 
 Linkit sovelluksen
 
@@ -12,9 +12,11 @@ Linkit sovelluksen
 * [listaukseen](http://jetolvan.users.cs.helsinki.fi/tsoha/note)
 * [yksittäiseen muistiinpanoon](http://jetolvan.users.cs.helsinki.fi/tsoha/note/1)
 * [muistiinpanon luomiseen](http://jetolvan.users.cs.helsinki.fi/tsoha/note/new)
+* [luokan luomiseen](http://jetolvan.users.cs.helsinki.fi/tsoha/createclass)
+* [tietokantatauluihin](http://jetolvan.users.cs.helsinki.fi/tsoha/tietokantayhteys)
 
 ## Työn aihe
 
 Muistilista
 
-Tavoitteena on luoda [muistilista](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Muistilista.html), johon käyttäjät voivat tallentaa, muokata tai poistaa muistiinpanoja. Muistiinpanoja voi lajitella eri luokkiin ja niille voi valita yhden kolmesta eri tärkeysstatuksesta. Muistilistan käyttö vaatii tunnistautumisen. 
+Tavoitteena on luoda [muistilista](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Muistilista.html), johon käyttäjät voivat tallentaa muistiinpanoja. Käyttäjä voi luoda, muokata tai poistaa käyttäjätiliinsä liittyviä muistiinpanoja. Jokaiseen muistiinpanoon liittyy myös prioriteetti, joka kertoo muistiinpanon tärkeydestä. Lisäksi käyttäjä voi luoda muistiinpanojansa varten listoja, joihin muistiinpanot voi lajitella. Yksi muistiinpano voi kuulua useampaan listaan (tietokantatauluissa monesta moneen -yhteys).
