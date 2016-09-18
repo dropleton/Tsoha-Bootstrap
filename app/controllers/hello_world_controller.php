@@ -24,6 +24,10 @@ class HelloWorldController extends BaseController {
         View::make('suunnitelmat/note_create.html');
     }
     
+    public static function class_create() {
+        View::make('suunnitelmat/class_create.html');
+    }
+    
     public static function login() {
         View::make('suunnitelmat/login.html');
     }

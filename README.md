@@ -3,7 +3,7 @@
 Yleisiä linkkejä:
 
 * [Linkki sovellukseeni](http://jetolvan.users.cs.helsinki.fi/tsoha/)
-* [Linkki dokumentaatiooni](https://github.com/dropleton/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+* [Linkki dokumentaatiooni](https://github.com/dropleton/Tsoha-Bootstrap/blob/master/doc/Johdanto.pdf)
 
 Linkit sovelluksen
 

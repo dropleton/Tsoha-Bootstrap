@@ -23,3 +23,7 @@ $routes->get('/note/new', function() {
 $routes->get('/login', function() {
     HelloWorldController::login();
 });
+
+$routes->get('/createclass', function() {
+    HelloWorldController::class_create();
+});
