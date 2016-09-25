@@ -1,5 +1,6 @@
 <?php
 
+require 'app/models/note.php';
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -8,8 +9,11 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        // Testaa koodiasi täällä
-        View::make('helloworld.html');
+        $rajaArvot = Note::find(1);
+        $notes = Note::all();
+        
+        Kint::dump($notes);
+        Kint::dump($rajaArvot);
     }
 
     public static function note_list() {
