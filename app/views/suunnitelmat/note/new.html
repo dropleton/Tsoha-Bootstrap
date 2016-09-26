@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Luo uusi muistiinpano</h1>
+
+<form method="post" action="{{base_path}}/note">
+    <div class="form-group">
+        <label>Otsikko</label>
+        <input type="text" name="otsikko" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Sisältö</label>
+        <input type="text" name="sisalto" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Prioriteetti</label>
+        <input type="radio" name="prioriteetti" value="!!!">!!!<br>
+        <input type="radio" name="prioriteetti" value="!!">!!<br>
+        <input type="radio" name="prioriteetti" value="!">!<br>
+        <input type="radio" name="prioriteetti" value="?">?<br>
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Luo muistiinpano</button>
+    </div>
+</form>
+
+{% endblock %}

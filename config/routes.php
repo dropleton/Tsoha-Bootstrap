@@ -8,16 +8,20 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->get('/note', function() {
-    NoteController::index();
+$routes->post('/note', function() {
+    NoteController::store();
+});
+
+$routes->get('/note/new', function() {
+    NoteController::create();
 });
 
 $routes->get('/note/:id', function($id) {
     NoteController::show($id);
 });
 
-$routes->get('/note/new', function() {
-    HelloWorldController::note_create();
+$routes->get('/note', function() {
+    NoteController::index();
 });
 
 $routes->get('/login', function() {

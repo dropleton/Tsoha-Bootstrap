@@ -43,5 +43,12 @@ class Note extends BaseModel {
         }
         return NULL;
     }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Muistiinpano (otsikko, sisalto, prioriteetti) VALUES (:otsikko, :sisalto, :prioriteetti) RETURNING id;');
+        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
 
 }
