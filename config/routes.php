@@ -9,11 +9,11 @@ $routes->get('/hiekkalaatikko', function() {
 });
 
 $routes->get('/note', function() {
-    HelloWorldController::note_list();
+    NoteController::index();
 });
 
-$routes->get('/note/1', function() {
-    HelloWorldController::note_show();
+$routes->get('/note/:id', function($id) {
+    NoteController::show($id);
 });
 
 $routes->get('/note/new', function() {

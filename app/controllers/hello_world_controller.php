@@ -1,6 +1,5 @@
 <?php
 
-require 'app/models/note.php';
 class HelloWorldController extends BaseController {
 
     public static function index() {

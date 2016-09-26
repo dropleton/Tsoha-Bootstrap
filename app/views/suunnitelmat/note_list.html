@@ -15,14 +15,12 @@
         </tr>
     </thead>
     <tbody>
+        {% for note in notes %}
         <tr>
-            <td><a href="#">tsohan paja</a></td>
-            <td>!!</td>
+            <td><a href="{{base_path}}/note/{{note.id}}">{{note.otsikko}}</a></td>
+            <td>{{note.prioriteetti}}</td>
         </tr>
-        <tr>
-            <td><a href="#">tiran läksyt</a></td>
-            <td>!</td>
-        </tr>
+        {% endfor %}
     </tbody>
 </table>
 
