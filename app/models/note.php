@@ -2,10 +2,11 @@
 
 class Note extends BaseModel {
 
-    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
+    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti, $validators;
 
     public function _construct($attributes) {
         parent::_construct($attributes);
+        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public static function all() {
@@ -43,7 +44,7 @@ class Note extends BaseModel {
         }
         return NULL;
     }
-    
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Muistiinpano (otsikko, sisalto, prioriteetti) VALUES (:otsikko, :sisalto, :prioriteetti) RETURNING id;');
         $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
@@ -51,4 +52,18 @@ class Note extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function validate_otsikko() {
+        $length = 50;
+        $string = $this->otsikko;
+        $errors = $this->validate_string_length($length, $string);
+        return $errors;
+    }
+    
+    public function validate_sisalto() {
+        $length = 1000;
+        $string = $this->sisalto;
+        $errors = $this->validate_string_length($length, $string);
+        return $errors;
+    }
+    
 }

@@ -8,11 +8,19 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        $rajaArvot = Note::find(1);
-        $notes = Note::all();
+        $doom = new Note(array(
+            'otsikko' => 'd',
+            'sisalto' => 'a',
+            'prioriteetti' => '!!!'
+        ));
+        $errors = $doom->errors();
         
-        Kint::dump($notes);
-        Kint::dump($rajaArvot);
+        Kint::dump($errors);
+//        $rajaArvot = Note::find(1);
+//        $notes = Note::all();
+//        
+//        Kint::dump($notes);
+//        Kint::dump($rajaArvot);
     }
 
     public static function note_list() {
