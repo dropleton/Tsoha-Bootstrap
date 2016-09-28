@@ -14,20 +14,22 @@ class BaseModel {
                 $this->{$attribute} = $value;
             }
         }
-        $this->validators = array('validate_otsikko', 'validate_sisalto');
+//        $this->validators = array('validate_otsikko', 'validate_sisalto');
+    }
+    
+    public function make_validators($validatorArray) {
+        $this->validators = array();
+        $this->validators = array_merge($this->validators, $validatorArray);
+        
     }
 
     public function errors() {
         // Lisätään $errors muuttujaan kaikki virheilmoitukset taulukkona
         $errors = array();
-        $validator_errors = array();
-//        $this->validators = array('validate_otsikko', 'validate_sisalto');
-
+        
         foreach ($this->validators as $validator) {
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
-            $validator_errors[] = $this->{$validator}();
         }
-        $errors = array_merge($errors, $validator_errors);
         return $errors;
     }
 
@@ -38,8 +40,8 @@ class BaseModel {
         }
         if (strlen($string) > $length) {
             $errors[] = 'Pituus ei saa olla yli ' . $length . ' merkkiä.';
-            return $errors;
         }
+        return $errors;
     }
 
 }

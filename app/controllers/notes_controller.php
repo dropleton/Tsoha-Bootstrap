@@ -14,19 +14,13 @@ class NoteController extends BaseController {
 
     public static function store() {
         $params = $_POST;
-        $attributes(array(
+        $note = new Note(array(
             'otsikko' => $params['otsikko'],
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
         ));
-        $note = new Note($attributes);
-        $errors = $note->errors();
-        if (count($errors) == 0) {
-            $note->save();
-            Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpano lisätty onnistuneesti!'));
-        } else {
-            View::make('note/new.html', array('errors' => $errors, 'attributes' => $attributes));
-        }
+        $note->save();
+        Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpano lisätty onnistuneesti!'));
     }
 
     public static function create() {

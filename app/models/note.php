@@ -2,11 +2,21 @@
 
 class Note extends BaseModel {
 
-    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti, $validate_otsikko, $validate_sisalto;
+    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
 
     public function _construct($attributes) {
-//        $this->validators = array('validate_otsikko', 'validate_sisalto');
+//        $this->validators = array();
+//        $this->validators[] = 'validate_otsikko';
+//        $this->validators[] = 'validate_sisalto';
         parent::_construct($attributes);
+        construct_validators();
+    }
+
+    public function construct_validators() {
+        $validators = array();
+        $validators[] = 'validate_otsikko';
+        $validators[] = 'validate_sisalto';
+        parent::make_validators($validators);
     }
 
     public static function all() {
@@ -53,19 +63,17 @@ class Note extends BaseModel {
     }
 
     public function validate_otsikko() {
-//        $this->validators[] = 'validate_otsikko';
+        $errors = array();
         $length = 50;
         $string = $this->otsikko;
-        $errors = array();
         $errors[] = $this->validate_string_length($string, $length);
         return $errors;
     }
 
     public function validate_sisalto() {
-//        $this->validators[] = 'validate_sisalto';
+        $errors = array();
         $length = 1000;
         $string = $this->sisalto;
-        $errors = array();
         $errors[] = $this->validate_string_length($string, $length);
         return $errors;
     }

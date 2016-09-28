@@ -13,7 +13,10 @@ class HelloWorldController extends BaseController {
             'sisalto' => 'a',
             'prioriteetti' => '!!!'
         ));
-        $errors = $doom->errors();
+        $errors = array();
+        $errors[] = $doom->validate_otsikko();
+        $errors[] = $doom->validate_sisalto();
+        $errors[] = $doom->errors();
         
         Kint::dump($errors);
 //        $rajaArvot = Note::find(1);
