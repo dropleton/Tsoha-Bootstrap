@@ -14,22 +14,18 @@ class BaseModel {
                 $this->{$attribute} = $value;
             }
         }
-//        $this->validators = array('validate_otsikko', 'validate_sisalto');
-    }
-    
-    public function make_validators($validatorArray) {
-        $this->validators = array();
-        $this->validators = array_merge($this->validators, $validatorArray);
-        
+        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public function errors() {
         // Lisätään $errors muuttujaan kaikki virheilmoitukset taulukkona
         $errors = array();
-        
+//        $this->validators = array_merge($this->validators, $errors);
         foreach ($this->validators as $validator) {
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
+            $errors[] = $this->{$validator}();
         }
+        $errors = array_merge($errors);
         return $errors;
     }
 

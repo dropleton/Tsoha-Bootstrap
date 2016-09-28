@@ -20,6 +20,18 @@ $routes->get('/note/:id', function($id) {
     NoteController::show($id);
 });
 
+$routes->get('/note/:id/edit', function($id) {
+    NoteController::edit($id);
+});
+
+$routes->post('/note/:id/edit', function($id) {
+    NoteController::update($id);
+});
+
+$routes->get('/note/:id/destroy', function($id) {
+    NoteController::destroy($id);
+});
+
 $routes->get('/note', function() {
     NoteController::index();
 });

@@ -4,7 +4,7 @@ class HelloWorldController extends BaseController {
 
     public static function index() {
         // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
-        View::make('suunnitelmat/frontpage.html');
+        View::make('frontpage.html');
     }
 
     public static function sandbox() {
@@ -14,16 +14,9 @@ class HelloWorldController extends BaseController {
             'prioriteetti' => '!!!'
         ));
         $errors = array();
-        $errors[] = $doom->validate_otsikko();
-        $errors[] = $doom->validate_sisalto();
         $errors[] = $doom->errors();
         
         Kint::dump($errors);
-//        $rajaArvot = Note::find(1);
-//        $notes = Note::all();
-//        
-//        Kint::dump($notes);
-//        Kint::dump($rajaArvot);
     }
 
     public static function note_list() {

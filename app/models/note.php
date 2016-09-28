@@ -5,18 +5,13 @@ class Note extends BaseModel {
     public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
 
     public function _construct($attributes) {
-//        $this->validators = array();
-//        $this->validators[] = 'validate_otsikko';
-//        $this->validators[] = 'validate_sisalto';
+        $this->validators = array();
+        $this->validators[] = 'validate_otsikko';
+        $this->validators[] = 'validate_sisalto';
+//        $this->validators = array_merge($this->validators, $attributes);
+        $attributes[] = $this->validators;
         parent::_construct($attributes);
-        construct_validators();
-    }
-
-    public function construct_validators() {
-        $validators = array();
-        $validators[] = 'validate_otsikko';
-        $validators[] = 'validate_sisalto';
-        parent::make_validators($validators);
+//        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public static function all() {
@@ -60,6 +55,16 @@ class Note extends BaseModel {
         $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
         $row = $query->fetch();
         $this->id = $row['id'];
+    }
+
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Muistiinpano SET otsikko= :otsikko, sisalto= :sisalto, prioriteetti= :prioriteetti;');
+        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+    }
+
+    public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM Muistiinpano WHERE id= :id;');
+        $query->execute(array('id' => $this->id));
     }
 
     public function validate_otsikko() {
