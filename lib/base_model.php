@@ -14,11 +14,14 @@ class BaseModel {
                 $this->{$attribute} = $value;
             }
         }
+        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public function errors() {
         // Lisätään $errors muuttujaan kaikki virheilmoitukset taulukkona
+        $errors = array();
         $validator_errors = array();
+//        $this->validators = array('validate_otsikko', 'validate_sisalto');
 
         foreach ($this->validators as $validator) {
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
