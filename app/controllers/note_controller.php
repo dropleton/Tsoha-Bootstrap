@@ -21,7 +21,8 @@ class NoteController extends BaseController {
         );
 
         $note = new Note($attributes);
-        $errors = $note->errors();
+        $errors = array();
+//        $errors[] = $note->errors();
 
         if (count($errors) == 0) {
             $note->save();
@@ -51,7 +52,9 @@ class NoteController extends BaseController {
         );
 
         $note = new Note($attributes);
-        $errors = $note->errors();
+        $errors = array();
+        $errors[] = $note->errors();
+//        $errors = array_merge($errors);
         
         if(count($errors) > 0) {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
@@ -67,4 +70,18 @@ class NoteController extends BaseController {
         Redirect::to('/note', array('message' => 'Muistiinpano poistettu'));
     }
 
+    //kaikki ongelmat:
+    //Muistiinpanon lisäys tai poisto ei onnistu. Aina, kun kutsun note_controllerissa
+    //$noten metodia errors(), virheitä löytyy, vaikkeivät note-luokan validointimetodit
+    //edes palauta mitään.
+    //Lisätessä tai poistaessa (kutsumatta metodia errors()) ohjautuu sivulle /note, 
+    //mutta näyttää sivun new.html
+    //Tästä huolimatta virheet eivät tulostu muuten kuin tekstinä "Array"
+    //BaseModelin metodi errors ei tunnista attribuuttia $validators arrayksi jos 
+    //määrittelen sen Note-luokan (extends BaseModel) puolella, vaan metodi vaatii
+    //attribuutin array-määrittelyn BaseModel-luokassa
+    
+    //nyt toimii
+    //update()-metodi errors()-kutsun kanssa, mutta luo joka kerta uuden muistiinpanon
+    //
 }

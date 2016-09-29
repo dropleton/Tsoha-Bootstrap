@@ -58,8 +58,8 @@ class Note extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Muistiinpano SET otsikko= :otsikko, sisalto= :sisalto, prioriteetti= :prioriteetti;');
-        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+        $query = DB::connection()->prepare('UPDATE Muistiinpano SET otsikko= :otsikko, sisalto= :sisalto, prioriteetti= :prioriteetti WHERE id= :id;');
+        $query->execute(array('id' => $this->id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
     }
 
     public function delete() {
@@ -72,6 +72,7 @@ class Note extends BaseModel {
         $length = 50;
         $string = $this->otsikko;
         $errors[] = $this->validate_string_length($string, $length);
+        $errors = array_merge($errors);
         return $errors;
     }
 
@@ -80,6 +81,7 @@ class Note extends BaseModel {
         $length = 1000;
         $string = $this->sisalto;
         $errors[] = $this->validate_string_length($string, $length);
+        $errors = array_merge($errors);
         return $errors;
     }
 

@@ -6,23 +6,19 @@ class BaseModel {
     protected $validators;
 
     public function __construct($attributes = null) {
-        // Käydään assosiaatiolistan avaimet läpi
         foreach ($attributes as $attribute => $value) {
-            // Jos avaimen niminen attribuutti on olemassa...
             if (property_exists($this, $attribute)) {
-                // ... lisätään avaimen nimiseen attribuuttin siihen liittyvä arvo
                 $this->{$attribute} = $value;
             }
         }
+        //Väliaikainen tapa saada $this->validators arrayksi
         $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public function errors() {
-        // Lisätään $errors muuttujaan kaikki virheilmoitukset taulukkona
         $errors = array();
 //        $this->validators = array_merge($this->validators, $errors);
         foreach ($this->validators as $validator) {
-            // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
             $errors[] = $this->{$validator}();
         }
         $errors = array_merge($errors);
