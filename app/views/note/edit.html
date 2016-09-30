@@ -3,7 +3,7 @@
 
 <h1>Muokkaa muistiinpanoa</h1>
 
-<form method="post" action="{{base_path}}/note">
+<form method="post" action="{{base_path}}/note/{{attributes.id}}/edit">
     <div class="form-group">
         <label>Otsikko</label>
         <input type="text" name="otsikko" class="form-control" value="{{attributes.otsikko}}">
@@ -19,7 +19,7 @@
         <input type="radio" name="prioriteetti" value="!!!">!!!<br>
         <input type="radio" name="prioriteetti" value="!!">!!<br>
         <input type="radio" name="prioriteetti" value="!">!<br>
-        <input type="radio" name="prioriteetti" value="?">?<br>
+        <input type="radio" name="prioriteetti" value="?" checked="checked">?<br>
     </div>
     
     <div class="form-group">

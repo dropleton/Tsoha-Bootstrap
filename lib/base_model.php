@@ -11,17 +11,15 @@ class BaseModel {
                 $this->{$attribute} = $value;
             }
         }
-        //Väliaikainen tapa saada $this->validators arrayksi
-        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public function errors() {
         $errors = array();
-//        $this->validators = array_merge($this->validators, $errors);
         foreach ($this->validators as $validator) {
-            $errors[] = $this->{$validator}();
+//            $errors[] = $this->{$validator}();
+            $errors = array_merge($errors, $this->{$validator}());
         }
-        $errors = array_merge($errors);
+
         return $errors;
     }
 

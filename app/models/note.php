@@ -4,14 +4,9 @@ class Note extends BaseModel {
 
     public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
 
-    public function _construct($attributes) {
-        $this->validators = array();
-        $this->validators[] = 'validate_otsikko';
-        $this->validators[] = 'validate_sisalto';
-//        $this->validators = array_merge($this->validators, $attributes);
-        $attributes[] = $this->validators;
-        parent::_construct($attributes);
-//        $this->validators = array('validate_otsikko', 'validate_sisalto');
+    public function __construct($attributes) {
+        parent::__construct($attributes);
+        $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
     public static function all() {
@@ -58,8 +53,14 @@ class Note extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Muistiinpano SET otsikko= :otsikko, sisalto= :sisalto, prioriteetti= :prioriteetti WHERE id= :id;');
-        $query->execute(array('id' => $this->id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+        $update = 'UPDATE Muistiinpano SET'
+                . ' otsikko = \':otsikko\''
+                . ' sisalto = \':sisalto\''
+                . ' prioriteetti = \':prioriteetti\''
+                . ' WHERE id = :id';
+//        "UPDATE Muistiinpano SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' WHERE id = :id;"
+        $query = DB::connection()->prepare($update);
+        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti, 'id' => $this->id, ));
     }
 
     public function delete() {
@@ -71,8 +72,8 @@ class Note extends BaseModel {
         $errors = array();
         $length = 50;
         $string = $this->otsikko;
-        $errors[] = $this->validate_string_length($string, $length);
-        $errors = array_merge($errors);
+        $errors = array_merge($errors, $this->validate_string_length($string, $length));
+//        $errors = array_merge($errors);
         return $errors;
     }
 
@@ -80,8 +81,8 @@ class Note extends BaseModel {
         $errors = array();
         $length = 1000;
         $string = $this->sisalto;
-        $errors[] = $this->validate_string_length($string, $length);
-        $errors = array_merge($errors);
+        $errors = array_merge($errors, $this->validate_string_length($string, $length));
+//        $errors = array_merge($errors);
         return $errors;
     }
 

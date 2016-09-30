@@ -22,7 +22,7 @@ class NoteController extends BaseController {
 
         $note = new Note($attributes);
         $errors = array();
-//        $errors[] = $note->errors();
+        $errors = array_merge($errors, $note->errors());
 
         if (count($errors) == 0) {
             $note->save();
@@ -53,8 +53,7 @@ class NoteController extends BaseController {
 
         $note = new Note($attributes);
         $errors = array();
-        $errors[] = $note->errors();
-//        $errors = array_merge($errors);
+        $errors = array_merge($errors, $note->errors());
         
         if(count($errors) > 0) {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
