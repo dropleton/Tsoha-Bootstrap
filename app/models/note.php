@@ -46,21 +46,22 @@ class Note extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Muistiinpano (otsikko, sisalto, prioriteetti) VALUES (:otsikko, :sisalto, :prioriteetti) RETURNING id;');
+        $query = DB::connection()->prepare('INSERT INTO Muistiinpano (otsikko, sisalto, prioriteetti) '
+                . 'VALUES (:otsikko, :sisalto, :prioriteetti) RETURNING id;');
         $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
         $row = $query->fetch();
         $this->id = $row['id'];
     }
 
     public function update() {
-        $update = 'UPDATE Muistiinpano SET'
-                . ' otsikko = \':otsikko\''
-                . ' sisalto = \':sisalto\''
-                . ' prioriteetti = \':prioriteetti\''
-                . ' WHERE id = :id';
+        $update = ("UPDATE Muistiinpano SET"
+                . " otsikko = ':otsikko',"
+                . " sisalto = ':sisalto',"
+                . " prioriteetti = ':prioriteetti'"
+                . " WHERE id = :id;");
 //        "UPDATE Muistiinpano SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' WHERE id = :id;"
         $query = DB::connection()->prepare($update);
-        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti, 'id' => $this->id, ));
+        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti, 'id' => $this->id));
     }
 
     public function delete() {
