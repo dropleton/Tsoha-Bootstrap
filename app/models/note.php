@@ -54,14 +54,19 @@ class Note extends BaseModel {
     }
 
     public function update() {
-        $update = ("UPDATE Muistiinpano SET"
-                . " otsikko = ':otsikko',"
-                . " sisalto = ':sisalto',"
-                . " prioriteetti = ':prioriteetti'"
-                . " WHERE id = :id;");
+//        $update = ("UPDATE Muistiinpano SET"
+//                . " otsikko = ':otsikko',"
+//                . " sisalto = ':sisalto',"
+//                . " prioriteetti = ':prioriteetti'"
+//                . " WHERE id = :id;");
 //        "UPDATE Muistiinpano SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' WHERE id = :id;"
-        $query = DB::connection()->prepare($update);
-        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti, 'id' => $this->id));
+//        Kint::dump($update);
+        $query = DB::connection()->prepare("UPDATE Muistiinpano "
+                . "SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' "
+                . "WHERE id = :id;");
+//        Kint::dump($query);
+        Kint::dump($this->otsikko, $this->sisalto, $this->prioriteetti, $this->id);
+//        $query->execute(array('id' => $this->id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
     }
 
     public function delete() {

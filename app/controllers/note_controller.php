@@ -43,6 +43,7 @@ class NoteController extends BaseController {
 
     public static function update($id) {
         $params = $_POST;
+        $id = (int) $id;
 
         $attributes = array(
             'id' => $id,
@@ -50,8 +51,11 @@ class NoteController extends BaseController {
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
         );
+        
+//        Kint::dump($attributes);
 
         $note = new Note($attributes);
+//        Kint::dump($note);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
         
@@ -59,7 +63,7 @@ class NoteController extends BaseController {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $note->update();
-            Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpanon muokkaus onnistui!'));
+//            Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpanon muokkaus onnistui!'));
         }
     }
 
@@ -70,17 +74,9 @@ class NoteController extends BaseController {
     }
 
     //kaikki ongelmat:
-    //Muistiinpanon lisäys tai poisto ei onnistu. Aina, kun kutsun note_controllerissa
-    //$noten metodia errors(), virheitä löytyy, vaikkeivät note-luokan validointimetodit
-    //edes palauta mitään.
-    //Lisätessä tai poistaessa (kutsumatta metodia errors()) ohjautuu sivulle /note, 
-    //mutta näyttää sivun new.html
-    //Tästä huolimatta virheet eivät tulostu muuten kuin tekstinä "Array"
-    //BaseModelin metodi errors ei tunnista attribuuttia $validators arrayksi jos 
-    //määrittelen sen Note-luokan (extends BaseModel) puolella, vaan metodi vaatii
-    //attribuutin array-määrittelyn BaseModel-luokassa
-    
-    //nyt toimii
-    //update()-metodi errors()-kutsun kanssa, mutta luo joka kerta uuden muistiinpanon
+    //Muistiinpanoa muokatessa saan "PDOException (HY093) SGLSTATE[HY093]:
+    //Invalid parameter number: :otsikko"
+    //Note.php:n riviltä 69. 
+    //Kyselyssä tai käyttäjän syöttämissä arvoissa ei pitäisi olla vikaa. 
     //
 }
