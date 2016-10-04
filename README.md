@@ -16,7 +16,9 @@ Linkit sovelluksen
 * [tietokantatauluihin](http://jetolvan.users.cs.helsinki.fi/tsoha/tietokantayhteys)
 
 Kirjautumiseen tarvittavat tunnukset:
+
 käyttäjätunnus: vierailija
+
 salasana: salasana
 
 ## Työn aihe
