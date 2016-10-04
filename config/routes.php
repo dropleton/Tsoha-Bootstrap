@@ -36,10 +36,14 @@ $routes->get('/note', function() {
     NoteController::index();
 });
 
-$routes->get('/login', function() {
-    HelloWorldController::login();
-});
-
 $routes->get('/createclass', function() {
     HelloWorldController::class_create();
+});
+
+$routes->get('/login', function() {
+    UserController::login();
+});
+
+$routes->post('/login', function() {
+    UserController::handle_login();
 });

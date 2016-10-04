@@ -3,7 +3,8 @@
 class NoteController extends BaseController {
 
     public static function index() {
-        $notes = Note::all();
+        $kayttaja_id = $_SESSION['user'];
+        $notes = Note::all($kayttaja_id);
         View::make('note/note_list.html', array('notes' => $notes));
     }
 
@@ -13,8 +14,10 @@ class NoteController extends BaseController {
     }
 
     public static function store() {
+        $kayttaja_id = $_SESSION['user'];
         $params = $_POST;
         $attributes = array(
+            'kayttaja_id' => $kayttaja_id,
             'otsikko' => $params['otsikko'],
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
@@ -63,7 +66,7 @@ class NoteController extends BaseController {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $note->update();
-//            Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpanon muokkaus onnistui!'));
+            Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpanon muokkaus onnistui!'));
         }
     }
 

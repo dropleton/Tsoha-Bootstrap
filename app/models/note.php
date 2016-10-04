@@ -9,9 +9,10 @@ class Note extends BaseModel {
         $this->validators = array('validate_otsikko', 'validate_sisalto');
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Muistiinpano;');
-        $query->execute();
+    public static function all($kayttaja_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Muistiinpano '
+                . 'WHERE kayttaja_id = :kayttaja_id;');
+        $query->execute(array('kayttaja_id' => $kayttaja_id));
         $rows = $query->fetchAll();
         $notes = array();
 
@@ -28,7 +29,8 @@ class Note extends BaseModel {
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Muistiinpano WHERE id = :id LIMIT 1;');
+        $query = DB::connection()->prepare('SELECT * FROM Muistiinpano '
+                . 'WHERE id = :id LIMIT 1;');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
 
@@ -46,27 +48,18 @@ class Note extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Muistiinpano (otsikko, sisalto, prioriteetti) '
-                . 'VALUES (:otsikko, :sisalto, :prioriteetti) RETURNING id;');
-        $query->execute(array('otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+        $query = DB::connection()->prepare('INSERT INTO Muistiinpano (kayttaja_id, otsikko, sisalto, prioriteetti) '
+                . 'VALUES (:kayttaja_id, :otsikko, :sisalto, :prioriteetti) RETURNING id;');
+        $query->execute(array('kayttaja_id' => $this->kayttaja_id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
         $row = $query->fetch();
         $this->id = $row['id'];
     }
 
     public function update() {
-//        $update = ("UPDATE Muistiinpano SET"
-//                . " otsikko = ':otsikko',"
-//                . " sisalto = ':sisalto',"
-//                . " prioriteetti = ':prioriteetti'"
-//                . " WHERE id = :id;");
-//        "UPDATE Muistiinpano SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' WHERE id = :id;"
-//        Kint::dump($update);
         $query = DB::connection()->prepare("UPDATE Muistiinpano "
-                . "SET otsikko = ':otsikko', sisalto = ':sisalto', prioriteetti = ':prioriteetti' "
+                . "SET otsikko = :otsikko, sisalto = :sisalto, prioriteetti = :prioriteetti "
                 . "WHERE id = :id;");
-//        Kint::dump($query);
-        Kint::dump($this->otsikko, $this->sisalto, $this->prioriteetti, $this->id);
-//        $query->execute(array('id' => $this->id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
+        $query->execute(array('id' => $this->id, 'otsikko' => $this->otsikko, 'sisalto' => $this->sisalto, 'prioriteetti' => $this->prioriteetti));
     }
 
     public function delete() {
@@ -79,7 +72,6 @@ class Note extends BaseModel {
         $length = 50;
         $string = $this->otsikko;
         $errors = array_merge($errors, $this->validate_string_length($string, $length));
-//        $errors = array_merge($errors);
         return $errors;
     }
 
@@ -88,7 +80,6 @@ class Note extends BaseModel {
         $length = 1000;
         $string = $this->sisalto;
         $errors = array_merge($errors, $this->validate_string_length($string, $length));
-//        $errors = array_merge($errors);
         return $errors;
     }
 

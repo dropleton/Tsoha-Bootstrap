@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Muistiinpanot</h1>
+    {% if user_logged_in %}
+    <h1>Käyttäjän {{user_logged_in.kayttajatunnus}} muistiinpanot</h1>
+    {% endif %}
 
 <p>
     <a href="{{base_path}}/note/new" class="btn btn-success">Luo uusi muistiinpano</a>
