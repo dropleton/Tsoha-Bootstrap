@@ -15,6 +15,10 @@ Linkit sovelluksen
 * [luokan luomiseen](http://jetolvan.users.cs.helsinki.fi/tsoha/createclass)
 * [tietokantatauluihin](http://jetolvan.users.cs.helsinki.fi/tsoha/tietokantayhteys)
 
+Kirjautumiseen tarvittavat tunnukset:
+käyttäjätunnus: vierailija
+salasana: salasana
+
 ## Työn aihe
 
 Muistilista
