@@ -36,9 +36,9 @@ $routes->get('/note', function() {
     NoteController::index();
 });
 
-$routes->get('/createclass', function() {
-    HelloWorldController::class_create();
-});
+//$routes->get('/createclass', function() {
+//    HelloWorldController::class_create();
+//});
 
 $routes->get('/login', function() {
     UserController::login();
@@ -50,4 +50,12 @@ $routes->post('/login', function() {
 
 $routes->post('/logout', function() {
     UserController::logout();
+});
+
+$routes->get('/luokka/new', function() {
+    LuokkaController::create();
+});
+
+$routes->post('/luokka', function() {
+    LuokkaController::store();
 });
