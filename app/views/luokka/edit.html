@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Muokkaa luokkaa</h1>
+
+<form method="post" action="{{base_path}}/luokka/{{attributes.id}}/edit">
+    <div class="form-group">
+        <label>Nimi</label>
+        <input type="text" name ="nimi" class="form-control" value="{{attributes.nimi}}">
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Valmis</button>
+    </div>
+</form>
+
+{% endblock %}

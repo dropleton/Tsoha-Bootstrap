@@ -11,8 +11,9 @@
 
 {% for luokka in luokat %}
 <h2>
-    <td><a href="{{base_path}}/luokka/{{luokka.id}}">{{luokka.nimi}}</a></td>
+    <a href="{{base_path}}/luokka/{{luokka.id}}">{{luokka.nimi}}</a>
 </h2>
+
 <table style="width:100%" class="table-striped table-bordered">
     <thead>
         <tr>

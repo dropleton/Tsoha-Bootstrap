@@ -43,7 +43,7 @@ class NoteController extends BaseController {
         self::check_logged_in();
         View::make('note/new.html');
     }
-    
+
     public static function edit($id) {
         self::check_logged_in();
         $note = Note::find($id);
@@ -61,15 +61,12 @@ class NoteController extends BaseController {
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
         );
-        
-//        Kint::dump($attributes);
 
         $note = new Note($attributes);
-//        Kint::dump($note);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
-        
-        if(count($errors) > 0) {
+
+        if (count($errors) > 0) {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $note->update();
@@ -84,10 +81,31 @@ class NoteController extends BaseController {
         Redirect::to('/note', array('message' => 'Muistiinpano poistettu'));
     }
 
-    //kaikki ongelmat:
-    //Muistiinpanoa muokatessa saan "PDOException (HY093) SGLSTATE[HY093]:
-    //Invalid parameter number: :otsikko"
-    //Note.php:n riviltä 69. 
-    //Kyselyssä tai käyttäjän syöttämissä arvoissa ei pitäisi olla vikaa. 
-    //
+    public static function edit_classes($id) {
+        self::check_logged_in();
+        $kayttaja_id = $_SESSION['user'];
+        $note = Note::find($id);
+        $luokat = Luokka::all($kayttaja_id);
+        View::make('note/edit_classes.html', array('note' => $note, 'luokat' => $luokat));
+    }
+
+    public static function set_classes($id) {
+        self::check_logged_in();
+        //miksi Note::find($id) ei toimi, jos en valitse luokkien muokkaus -sivulta yhtään vaihtoehtoa?
+        $note = Note::find($id);
+        $params = $_POST;
+        if (empty($params['luokat'])) {
+            $errors = array();
+            $errors[] = 'Valitse vähintään yksi vaihtoehto!';
+            Redirect::to('/note/' . $note->id . 'edit-classes', array('errors' => $errors));
+        } else if ($params['luokat'][0] == 'no_classes') {
+            $note->remove_classes();
+            Redirect::to('/note/' . $note->id, array('message' => 'Luokat poistettu onnistuneesti'));
+        } else {
+            $luokat = $params['luokat'];
+            $note->add_to_classes($luokat);
+            Redirect::to('/note/' . $note->id, array('message' => 'Luokat lisätty onnistuneesti'));
+        }
+    }
+
 }

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{luokka.nimi}}</h1>
+<p>
+    <a href="{{base_path}}/luokka/{{luokka.id}}/destroy" class="btn btn-danger">Poista</a>
+    <a href="{{base_path}}/luokka/{{luokka.id}}/edit" class="btn btn-default">Muokkaa</a>
+</p>
+
+{% endblock %}
