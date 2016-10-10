@@ -2,11 +2,12 @@
 
 class Note extends BaseModel {
 
-    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
+    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti, $luokat;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_otsikko', 'validate_sisalto');
+        $this->luokat = array();
     }
 
     public static function all($kayttaja_id) {
@@ -71,8 +72,13 @@ class Note extends BaseModel {
         $query = DB::connection()->prepare('SELECT luokka_id FROM Liitostaulu WHERE muistiinpano_id = :id;');
         $query->execute(array('id' => $this->id));
         $rows = $query->fetchAll();
-        //nyt $rows sisältää arrayn luokkien id:itä, joihin tämä muistiinpano kuuluu
-        return $rows;
+        $luokat = array();
+        foreach($rows as $row) {
+            $luokat[] = $row['luokka_id'];
+        }
+        //nyt $luokat sisältää arrayn id:itä, joihin muistiinpano kuuluu
+        $this->luokat = $rows;
+        return $luokat;
     }
 
     public function add_to_classes($luokat) {

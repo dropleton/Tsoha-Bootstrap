@@ -13,7 +13,12 @@ class NoteController extends BaseController {
     public static function show($id) {
         self::check_logged_in();
         $note = Note::find($id);
-        View::make('note/note_show.html', array('note' => $note));
+        $luokkien_idt = $note->check_classes();
+        $luokat = array();
+        foreach ($luokkien_idt as $luokka) {
+            $luokat[] = Luokka::find($luokka);
+        }
+        View::make('note/note_show.html', array('note' => $note, 'luokat' => $luokat));
     }
 
     public static function store() {

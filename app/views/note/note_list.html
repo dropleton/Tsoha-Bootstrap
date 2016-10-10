@@ -19,6 +19,7 @@
         <tr>
             <th>Otsikko</th>
             <th>Prioriteetti</th>
+            <th>Luokat</th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,9 @@
         <tr>
             <td><a href="{{base_path}}/note/{{note.id}}">{{note.otsikko}}</a></td>
             <td>{{note.prioriteetti}}</td>
+            {% for luokka in note.luokat %}
+            <td>{{luokka.nimi}}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </tbody>
