@@ -31,18 +31,23 @@ class NoteController extends BaseController {
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
         );
-        $luokat = $params['luokat'];
-        //tallennettavien luokkien validointi!!
         $note = new Note($attributes);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
+
+        if (array_key_exists('luokat', $params)) {
+            $luokat = $params['luokat'];
+        } else {
+            $errors[] = 'Valitse vähintään yksi luokka!';
+        }
 
         if (count($errors) == 0) {
             $note->save();
             $note->add_to_classes($luokat);
             Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpano lisätty onnistuneesti!'));
         } else {
-            View::make('/note/new.html', array('errors' => $errors, 'attributes' => $attributes));
+            $luokat = Luokka::all($kayttaja_id);
+            View::make('/note/new.html', array('errors' => $errors, 'attributes' => $attributes, 'luokat' => $luokat));
         }
     }
 
