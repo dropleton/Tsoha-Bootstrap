@@ -64,6 +64,8 @@ class Note extends BaseModel {
     }
 
     public function delete() {
+        $query1 = DB::connection()->prepare('DELETE FROM Liitostaulu WHERE muistiinpano_id = :id');
+        $query1->execute(array('id' => $this->id));
         $query = DB::connection()->prepare('DELETE FROM Muistiinpano WHERE id= :id;');
         $query->execute(array('id' => $this->id));
     }
@@ -84,16 +86,10 @@ class Note extends BaseModel {
     public function add_to_classes($luokat) {
         //$luokat sisältää luokkien id:t, jotka muistiinpanolle on lisättävä.
         //Metodin idea:
-        //Ensin poistetaan Liitostaulusta alkiot, jotka sinne aiotaan lisätä.
-        //Tämän jälkeen lisätään kyseiset alkiot. En keksinyt, miten olisin voinut 
-        //ensin tarkistaa, onko Liitostaulussa jo olemassa lisättävät alkiot
-        //ja toteuttaa lisäämisen tämän perusteella
-        foreach ($luokat as $luokka) {
-            $query = DB::connection()->prepare('DELETE FROM Liitostaulu '
-                    . 'WHERE muistiinpano_id = :note_id '
-                    . 'AND luokka_id = :luokka_id;');
-            $query->execute(array('note_id' => $this->id, 'luokka_id' => $luokka));
-        }
+        //Ensin poistetaan Liitostaulusta yhteydet tästä muistiinpanosta kaikkiin luokkiin.
+        //Tämän jälkeen lisätään uudet luokat. 
+
+        $this->remove_classes();
         foreach ($luokat as $luokka) {
             $luokka = (int) $luokka;
             $query = DB::connection()->prepare('INSERT INTO Liitostaulu (muistiinpano_id, luokka_id) '

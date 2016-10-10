@@ -34,6 +34,16 @@
         <input type="radio" name="prioriteetti" value="!">!<br>
         <input type="radio" name="prioriteetti" value="?" checked="checked">?<br>
     </div>
+    
+    <div class="form-group">
+        <label>Valitse luokat</label>
+        <p>Valitse luokat, joihin muistiinpano kuuluu. Valitaksesi useita pidä ctrl-näppäin pohjassa.</p>
+        <select class="form-control" name="luokat[]" multiple="">
+            {% for luokka in luokat %}
+            <option value="{{luokka.id}}">{{luokka.nimi}}</option>
+            {% endfor %}
+        </select>
+    </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Valmis</button>

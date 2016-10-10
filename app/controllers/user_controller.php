@@ -18,7 +18,7 @@ class UserController extends BaseController {
         } else {
             $_SESSION['user'] = $user->id;
 
-            Redirect::to('/note', array('message' => 'Tervetuloa takaisin ' . $user->kayttajatunnus . "!"));
+            Redirect::to('/luokat', array('message' => 'Tervetuloa takaisin ' . $user->kayttajatunnus . "!"));
         }
     }
     

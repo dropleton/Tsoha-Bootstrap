@@ -2,7 +2,7 @@
 
 class Luokka extends BaseModel {
 
-    public $id, $nimi, $notes;
+    public $id, $kayttaja_id, $nimi, $notes;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -43,11 +43,22 @@ class Luokka extends BaseModel {
         }
         return null;
     }
+    
+    public static function find_notes($luokkaid) {
+        $query = DB::connection()->prepare('SELECT muistiinpano_id FROM Liitostaulu WHERE luokka_id = :id;');
+        $query->execute(array('id' => $luokkaid));
+        $rows = $query->fetchAll();
+        $notes = array();
+        foreach($rows as $row) {
+            $notes[] = $row['muistiinpano_id'];
+        }
+        return $notes;
+    }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Luokka (nimi) '
-                . 'VALUES (:nimi) RETURNING id;');
-        $query->execute(array('nimi' => $this->nimi));
+        $query = DB::connection()->prepare('INSERT INTO Luokka (nimi, kayttaja_id) '
+                . 'VALUES (:nimi, :kayttaja_id) RETURNING id;');
+        $query->execute(array('nimi' => $this->nimi, 'kayttaja_id' => $this->kayttaja_id));
         $row = $query->fetch();
         $this->id = $row['id'];
     }

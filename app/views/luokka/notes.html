@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Luokan <a href="{{base_path}}/luokka/{{luokka.id}}">{{luokka.nimi}}</a> muistiinpanot</h1>
+
+<p>
+    <a href="{{base_path}}/note/new" class="btn btn-success">Luo uusi muistiinpano</a>
+</p>
+
+<table style="width:100%" class="table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Otsikko</th>
+            <th>Prioriteetti</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for note in notes %}
+        <tr>
+            <td><a href="{{base_path}}/note/{{note.id}}">{{note.otsikko}}</a></td>
+            <td>{{note.prioriteetti}}</td>        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -31,13 +31,15 @@ class NoteController extends BaseController {
             'sisalto' => $params['sisalto'],
             'prioriteetti' => $params['prioriteetti']
         );
-
+        $luokat = $params['luokat'];
+        //tallennettavien luokkien validointi!!
         $note = new Note($attributes);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
 
         if (count($errors) == 0) {
             $note->save();
+            $note->add_to_classes($luokat);
             Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpano lisätty onnistuneesti!'));
         } else {
             View::make('/note/new.html', array('errors' => $errors, 'attributes' => $attributes));
@@ -46,13 +48,17 @@ class NoteController extends BaseController {
 
     public static function create() {
         self::check_logged_in();
-        View::make('note/new.html');
+        $kayttaja_id = $_SESSION['user'];
+        $luokat = Luokka::all($kayttaja_id);
+        View::make('note/new.html', array('luokat' => $luokat));
     }
 
     public static function edit($id) {
         self::check_logged_in();
+        $kayttaja_id = $_SESSION['user'];
         $note = Note::find($id);
-        View::make('note/edit.html', array('attributes' => $note));
+        $luokat = Luokka::all($kayttaja_id);
+        View::make('note/edit.html', array('attributes' => $note, 'luokat' => $luokat));
     }
 
     public static function update($id) {
@@ -67,6 +73,7 @@ class NoteController extends BaseController {
             'prioriteetti' => $params['prioriteetti']
         );
 
+        $luokat = $params['luokat'];
         $note = new Note($attributes);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
@@ -75,6 +82,7 @@ class NoteController extends BaseController {
             View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
         } else {
             $note->update();
+            $note->add_to_classes($luokat);
             Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpanon muokkaus onnistui!'));
         }
     }
@@ -83,7 +91,7 @@ class NoteController extends BaseController {
         self::check_logged_in();
         $note = new Note(array('id' => $id));
         $note->delete();
-        Redirect::to('/note', array('message' => 'Muistiinpano poistettu'));
+        Redirect::to('/luokat', array('message' => 'Muistiinpano poistettu'));
     }
 
     public static function edit_classes($id) {

@@ -27,9 +27,12 @@
         <tr>
             <td><a href="{{base_path}}/note/{{note.id}}">{{note.otsikko}}</a></td>
             <td>{{note.prioriteetti}}</td>
+            
             {% for luokka in note.luokat %}
-            <td>{{luokka.nimi}}</td>
+            <td>{{note.luokat[0]}}</td>
             {% endfor %}
+<!--<td>{{note.luokat[0]}}</td>-->            
+
         </tr>
         {% endfor %}
     </tbody>

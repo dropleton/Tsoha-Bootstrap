@@ -16,12 +16,11 @@
 <form method="post" action="{{base_path}}/note/{{note.id}}/edit_classes">
     <div class="form-group">
         <label>Valitse luokat</label>
-        <p>Valitse luokat, jotka haluat liittää muistiinpanoon. Jos haluat muistiinpanon ilman luokkia, valitse vaihtoehto "Ei luokkia". Valitaksesi useita pidä ctrl-näppäin pohjassa.</p>
+        <p>Valitse luokat, joihin muistiinpano kuuluu. Valitaksesi useita pidä ctrl-näppäin pohjassa.</p>
         <select class="form-control" name="luokat[]" multiple="">
             {% for luokka in luokat %}
             <option value="{{luokka.id}}">{{luokka.nimi}}</option>
             {% endfor %}
-            <option value="no_classes">Ei luokkia</option>
         </select>
     </div>
 

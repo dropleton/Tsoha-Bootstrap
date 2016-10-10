@@ -8,7 +8,7 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->post('/note', function() {
+$routes->post('/note/new', function() {
     NoteController::store();
 });
 
@@ -28,13 +28,13 @@ $routes->post('/note/:id/edit', function($id) {
     NoteController::update($id);
 });
 
-$routes->get('/note/:id/edit_classes', function($id) {
-    NoteController::edit_classes($id);
-});
+//$routes->get('/note/:id/edit_classes', function($id) {
+//    NoteController::edit_classes($id);
+//});
 
-$routes->post('/note/:id/edit_classes', function($id) {
-    NoteController::set_classes($id);
-});
+//$routes->post('/note/:id/edit_classes', function($id) {
+//    NoteController::set_classes($id);
+//});
 
 $routes->get('/note/:id/destroy', function($id) {
     NoteController::destroy($id);
@@ -56,6 +56,10 @@ $routes->post('/logout', function() {
     UserController::logout();
 });
 
+$routes->get('/luokat', function() {
+    LuokkaController::index();
+});
+
 $routes->post('/luokka', function() {
     LuokkaController::store();
 });
@@ -66,6 +70,10 @@ $routes->get('/luokka/new', function() {
 
 $routes->get('/luokka/:id', function($id) {
     LuokkaController::show($id);
+});
+
+$routes->get('/luokka/:id/show', function($id) {
+    LuokkaController::show_notes($id);
 });
 
 $routes->get('/luokka/:id/edit', function($id) {
