@@ -2,6 +2,10 @@
 
 class UserController extends BaseController {
 
+    public static function index() {
+        View::make('frontpage.html');
+    }
+    
     public static function login() {
         View::make('user/login.html');
     }

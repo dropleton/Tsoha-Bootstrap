@@ -1,7 +1,7 @@
 <?php
 
 $routes->get('/', function() {
-    HelloWorldController::index();
+    UserController::index();
 });
 
 $routes->get('/hiekkalaatikko', function() {
@@ -27,14 +27,6 @@ $routes->get('/note/:id/edit', function($id) {
 $routes->post('/note/:id/edit', function($id) {
     NoteController::update($id);
 });
-
-//$routes->get('/note/:id/edit_classes', function($id) {
-//    NoteController::edit_classes($id);
-//});
-
-//$routes->post('/note/:id/edit_classes', function($id) {
-//    NoteController::set_classes($id);
-//});
 
 $routes->get('/note/:id/destroy', function($id) {
     NoteController::destroy($id);

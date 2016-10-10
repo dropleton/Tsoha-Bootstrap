@@ -40,7 +40,6 @@ class NoteController extends BaseController {
         } else {
             $errors[] = 'Valitse vähintään yksi luokka!';
         }
-
         if (count($errors) == 0) {
             $note->save();
             $note->add_to_classes($luokat);
