@@ -46,7 +46,7 @@ class NoteController extends BaseController {
             Redirect::to('/note/' . $note->id, array('message' => 'Muistiinpano lisätty onnistuneesti!'));
         } else {
             $luokat = Luokka::all($kayttaja_id);
-            View::make('/note/new.html', array('errors' => $errors, 'attributes' => $attributes, 'luokat' => $luokat));
+            View::make('/note/note_new.html', array('errors' => $errors, 'attributes' => $attributes, 'luokat' => $luokat));
         }
     }
 
@@ -54,7 +54,7 @@ class NoteController extends BaseController {
         self::check_logged_in();
         $kayttaja_id = $_SESSION['user'];
         $luokat = Luokka::all($kayttaja_id);
-        View::make('note/new.html', array('luokat' => $luokat));
+        View::make('note/note_new.html', array('luokat' => $luokat));
     }
 
     public static function edit($id) {
@@ -62,11 +62,12 @@ class NoteController extends BaseController {
         $kayttaja_id = $_SESSION['user'];
         $note = Note::find($id);
         $luokat = Luokka::all($kayttaja_id);
-        View::make('note/edit.html', array('attributes' => $note, 'luokat' => $luokat));
+        View::make('note/note_edit.html', array('attributes' => $note, 'luokat' => $luokat));
     }
 
     public static function update($id) {
         self::check_logged_in();
+        $kayttaja_id = $_SESSION['user'];
         $params = $_POST;
         $id = (int) $id;
 
@@ -77,13 +78,18 @@ class NoteController extends BaseController {
             'prioriteetti' => $params['prioriteetti']
         );
 
-        $luokat = $params['luokat'];
         $note = new Note($attributes);
         $errors = array();
         $errors = array_merge($errors, $note->errors());
 
+        if (array_key_exists('luokat', $params)) {
+            $luokat = $params['luokat'];
+        } else {
+            $errors[] = 'Valitse vähintään yksi luokka!';
+        }
         if (count($errors) > 0) {
-            View::make('note/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+            $luokat = Luokka::all($kayttaja_id);
+            View::make('note/note_edit.html', array('errors' => $errors, 'attributes' => $attributes, 'luokat' => $luokat));
         } else {
             $note->update();
             $note->add_to_classes($luokat);

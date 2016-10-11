@@ -6,7 +6,7 @@ class LuokkaController extends BaseController {
         self::check_logged_in();
         $kayttaja_id = $_SESSION['user'];
         $luokat = Luokka::all($kayttaja_id);
-        View::make('luokka/list.html', array('luokat' => $luokat));
+        View::make('luokka/luokka_list.html', array('luokat' => $luokat));
     }
 
     public static function show($id) {
@@ -22,11 +22,11 @@ class LuokkaController extends BaseController {
             $note = Note::find($noteid);
             $notes[] = $note;
         }
-        View::make('luokka/notes.html', array('notes' => $notes, 'luokka' => $luokka));
+        View::make('luokka/luokka_notes.html', array('notes' => $notes, 'luokka' => $luokka));
     }
 
     public static function create() {
-        View::make('luokka/new.html');
+        View::make('luokka/luokka_new.html');
     }
 
     public static function store() {
@@ -45,7 +45,7 @@ class LuokkaController extends BaseController {
 
     public static function edit($id) {
         $luokka = Luokka::find($id);
-        View::make('luokka/edit.html', array('attributes' => $luokka));
+        View::make('luokka/luokka_edit.html', array('attributes' => $luokka));
     }
     
     public function update($id) {
@@ -64,6 +64,6 @@ class LuokkaController extends BaseController {
         $luokka = new Luokka(array('id' => $id));
         $luokka->delete();
         //luokan viitteen poistaminen muistiinpanoista?
-        Redirect::to('/note', array('message' => 'Luokka poistettu onnistuneesti'));
+        Redirect::to('/luokat', array('message' => 'Luokka poistettu onnistuneesti'));
     }
 }
