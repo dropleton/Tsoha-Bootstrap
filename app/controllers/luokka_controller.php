@@ -1,7 +1,7 @@
 <?php
 
 class LuokkaController extends BaseController {
-    
+
     public static function index() {
         self::check_logged_in();
         $kayttaja_id = $_SESSION['user'];
@@ -14,13 +14,13 @@ class LuokkaController extends BaseController {
         $luokka = Luokka::find($id);
         View::make('luokka/luokka_show.html', array('luokka' => $luokka));
     }
-    
+
     public static function show_notes($luokkaid) {
         self::check_logged_in();
         $luokka = Luokka::find($luokkaid);
         $noteidt = $luokka->find_notes($luokkaid);
         $notes = array();
-        foreach($noteidt as $noteid) {
+        foreach ($noteidt as $noteid) {
             $note = Note::find($noteid);
             $notes[] = $note;
         }
@@ -42,8 +42,8 @@ class LuokkaController extends BaseController {
         );
         $luokka = new Luokka($attributes);
         $errors = $luokka->errors();
-        
-        if(count($errors) == 0) {
+
+        if (count($errors) == 0) {
             $luokka->save();
             Redirect::to('/luokat', array('message' => 'Luokan luominen onnistui!'));
         } else {
@@ -56,7 +56,7 @@ class LuokkaController extends BaseController {
         $luokka = Luokka::find($id);
         View::make('luokka/luokka_edit.html', array('attributes' => $luokka));
     }
-    
+
     public function update($id) {
         self::check_logged_in();
         $params = $_POST;
@@ -65,16 +65,21 @@ class LuokkaController extends BaseController {
             'nimi' => $params['nimi']
         );
         $luokka = new Luokka($attributes);
-        //validointi: toteuta luokka.php:n validointimetodit
-        $luokka->update();
-        Redirect::to('/luokka/' . $luokka->id, array('message' => 'Luokan muokkaus onnistui!'));
+        $errors = $luokka->errors();
+
+        if (count($errors) == 0) {
+            $luokka->save();
+            Redirect::to('/luokat', array('message' => 'Luokan luominen onnistui!'));
+        } else {
+            View::make('luokka/luokka_edit.html', array('errors' => $errors, 'luokka' => $luokka));
+        }
     }
-    
+
     public function destroy($id) {
         self::check_logged_in();
         $luokka = new Luokka(array('id' => $id));
         $note_ids = $luokka->find_notes($id);
-        foreach($note_ids as $noteid) {
+        foreach ($note_ids as $noteid) {
             $note = new Note(array('id' => $noteid));
             //katsotaan, kuuluuko kyseinen muistiinpano muihin luokkiin
             $other_classes = $note->check_classes();
@@ -82,7 +87,7 @@ class LuokkaController extends BaseController {
             $key = array_search($id, $other_classes);
             unset($other_classes[$key]);
             //jos muut luokat jää tyhjäksi..
-            if(empty($other_classes)) {
+            if (empty($other_classes)) {
                 //poistetaan kyseinen muistiinpano
                 $note->delete();
             }
@@ -91,4 +96,5 @@ class LuokkaController extends BaseController {
         $luokka->delete();
         Redirect::to('/luokat', array('message' => 'Luokka poistettu onnistuneesti'));
     }
+
 }
