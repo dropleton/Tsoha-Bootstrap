@@ -104,31 +104,31 @@ class NoteController extends BaseController {
         Redirect::to('/luokat', array('message' => 'Muistiinpano poistettu'));
     }
 
-    public static function edit_classes($id) {
-        self::check_logged_in();
-        $kayttaja_id = $_SESSION['user'];
-        $note = Note::find($id);
-        $luokat = Luokka::all($kayttaja_id);
-        View::make('note/edit_classes.html', array('note' => $note, 'luokat' => $luokat));
-    }
-
-    public static function set_classes($id) {
-        self::check_logged_in();
-        //miksi Note::find($id) ei toimi, jos en valitse luokkien muokkaus -sivulta yhtään vaihtoehtoa?
-        $note = Note::find($id);
-        $params = $_POST;
-        if (empty($params['luokat'])) {
-            $errors = array();
-            $errors[] = 'Valitse vähintään yksi vaihtoehto!';
-            Redirect::to('/note/' . $note->id . 'edit-classes', array('errors' => $errors));
-        } else if ($params['luokat'][0] == 'no_classes') {
-            $note->remove_classes();
-            Redirect::to('/note/' . $note->id, array('message' => 'Luokat poistettu onnistuneesti'));
-        } else {
-            $luokat = $params['luokat'];
-            $note->add_to_classes($luokat);
-            Redirect::to('/note/' . $note->id, array('message' => 'Luokat lisätty onnistuneesti'));
-        }
-    }
+//    public static function edit_classes($id) {
+//        self::check_logged_in();
+//        $kayttaja_id = $_SESSION['user'];
+//        $note = Note::find($id);
+//        $luokat = Luokka::all($kayttaja_id);
+//        View::make('note/edit_classes.html', array('note' => $note, 'luokat' => $luokat));
+//    }
+//
+//    public static function set_classes($id) {
+//        self::check_logged_in();
+//        //miksi Note::find($id) ei toimi, jos en valitse luokkien muokkaus -sivulta yhtään vaihtoehtoa?
+//        $note = Note::find($id);
+//        $params = $_POST;
+//        if (empty($params['luokat'])) {
+//            $errors = array();
+//            $errors[] = 'Valitse vähintään yksi vaihtoehto!';
+//            Redirect::to('/note/' . $note->id . 'edit-classes', array('errors' => $errors));
+//        } else if ($params['luokat'][0] == 'no_classes') {
+//            $note->remove_classes();
+//            Redirect::to('/note/' . $note->id, array('message' => 'Luokat poistettu onnistuneesti'));
+//        } else {
+//            $luokat = $params['luokat'];
+//            $note->add_to_classes($luokat);
+//            Redirect::to('/note/' . $note->id, array('message' => 'Luokat lisätty onnistuneesti'));
+//        }
+//    }
 
 }

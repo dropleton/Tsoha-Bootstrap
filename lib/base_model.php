@@ -23,13 +23,13 @@ class BaseModel {
         return $errors;
     }
 
-    public function validate_string_length($string, $length) {
+    public function validate_string_length($string, $length, $validoitava) {
         $errors = array();
         if ($string == '' || $string == null) {
-            $errors[] = 'Ei saa olla tyhjä!';
+            $errors[] = $validoitava . 'ei saa olla tyhjä!';
         }
         if (strlen($string) > $length) {
-            $errors[] = 'Pituus ei saa olla yli ' . $length . ' merkkiä.';
+            $errors[] = 'Kentän ' . $validoitava . 'pituus ei saa olla yli ' . $length . ' merkkiä.';
         }
         return $errors;
     }

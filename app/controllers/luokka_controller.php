@@ -10,11 +10,13 @@ class LuokkaController extends BaseController {
     }
 
     public static function show($id) {
+        self::check_logged_in();
         $luokka = Luokka::find($id);
         View::make('luokka/luokka_show.html', array('luokka' => $luokka));
     }
     
     public static function show_notes($luokkaid) {
+        self::check_logged_in();
         $luokka = Luokka::find($luokkaid);
         $noteidt = $luokka->find_notes($luokkaid);
         $notes = array();
@@ -26,6 +28,7 @@ class LuokkaController extends BaseController {
     }
 
     public static function create() {
+        self::check_logged_in();
         View::make('luokka/luokka_new.html');
     }
 
@@ -38,17 +41,24 @@ class LuokkaController extends BaseController {
             'kayttaja_id' => $kayttaja_id
         );
         $luokka = new Luokka($attributes);
-        //validointi: toteuta luokka.php:n validointimetodit
-        $luokka->save();
-        Redirect::to('/luokat', array('message' => 'Luokan luominen onnistui!'));
+        $errors = $luokka->errors();
+        
+        if(count($errors) == 0) {
+            $luokka->save();
+            Redirect::to('/luokat', array('message' => 'Luokan luominen onnistui!'));
+        } else {
+            View::make('luokka/luokka_new.html', array('errors' => $errors, 'luokka' => $luokka));
+        }
     }
 
     public static function edit($id) {
+        self::check_logged_in();
         $luokka = Luokka::find($id);
         View::make('luokka/luokka_edit.html', array('attributes' => $luokka));
     }
     
     public function update($id) {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'id' => $id,
@@ -61,6 +71,7 @@ class LuokkaController extends BaseController {
     }
     
     public function destroy($id) {
+        self::check_logged_in();
         $luokka = new Luokka(array('id' => $id));
         $note_ids = $luokka->find_notes($id);
         foreach($note_ids as $noteid) {
@@ -78,7 +89,6 @@ class LuokkaController extends BaseController {
             //muutoin poistetaan pelkkä luokka
         }
         $luokka->delete();
-        //luokan viitteen poistaminen muistiinpanoista?
         Redirect::to('/luokat', array('message' => 'Luokka poistettu onnistuneesti'));
     }
 }

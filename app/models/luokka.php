@@ -6,6 +6,7 @@ class Luokka extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_nimi');
         $notes = array();
 //        $this->get_notes();
     }
@@ -80,6 +81,15 @@ class Luokka extends BaseModel {
         $query = DB::connection()->prepare('DELETE FROM Liitostaulu '
                 . 'WHERE luokka_id = :luokka_id;');
         $query->execute(array('luokka_id' => $this->id));
+    }
+    
+    public function validate_nimi() {
+        $validoitava = 'Nimi ';
+        $errors = array();
+        $length = 50;
+        $string = $this->nimi;
+        $errors = array_merge($errors, $this->validate_string_length($string, $length, $validoitava));
+        return $errors;
     }
 
 }

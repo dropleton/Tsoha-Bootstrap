@@ -2,12 +2,11 @@
 
 class Note extends BaseModel {
 
-    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti, $luokat;
+    public $id, $kayttaja_id, $otsikko, $sisalto, $prioriteetti;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_otsikko', 'validate_sisalto');
-        $this->luokat = array();
     }
 
     public static function all($kayttaja_id) {
@@ -65,8 +64,6 @@ class Note extends BaseModel {
 
     public function delete() {
         $this->remove_classes();
-//        $query1 = DB::connection()->prepare('DELETE FROM Liitostaulu WHERE muistiinpano_id = :id');
-//        $query1->execute(array('id' => $this->id));
         $query = DB::connection()->prepare('DELETE FROM Muistiinpano WHERE id= :id;');
         $query->execute(array('id' => $this->id));
     }
@@ -80,7 +77,6 @@ class Note extends BaseModel {
             $luokat[] = $row['luokka_id'];
         }
         //nyt $luokat sisältää arrayn id:itä, joihin muistiinpano kuuluu
-        $this->luokat = $rows;
         return $luokat;
     }
 
@@ -106,18 +102,20 @@ class Note extends BaseModel {
     }
 
     public function validate_otsikko() {
+        $validoitava = 'Otsikko ';
         $errors = array();
         $length = 50;
         $string = $this->otsikko;
-        $errors = array_merge($errors, $this->validate_string_length($string, $length));
+        $errors = array_merge($errors, $this->validate_string_length($string, $length, $validoitava));
         return $errors;
     }
 
     public function validate_sisalto() {
+        $validoitava = 'Sisältö ';
         $errors = array();
         $length = 1000;
         $string = $this->sisalto;
-        $errors = array_merge($errors, $this->validate_string_length($string, $length));
+        $errors = array_merge($errors, $this->validate_string_length($string, $length, $validoitava));
         return $errors;
     }
 
