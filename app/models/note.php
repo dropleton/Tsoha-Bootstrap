@@ -64,8 +64,9 @@ class Note extends BaseModel {
     }
 
     public function delete() {
-        $query1 = DB::connection()->prepare('DELETE FROM Liitostaulu WHERE muistiinpano_id = :id');
-        $query1->execute(array('id' => $this->id));
+        $this->remove_classes();
+//        $query1 = DB::connection()->prepare('DELETE FROM Liitostaulu WHERE muistiinpano_id = :id');
+//        $query1->execute(array('id' => $this->id));
         $query = DB::connection()->prepare('DELETE FROM Muistiinpano WHERE id= :id;');
         $query->execute(array('id' => $this->id));
     }

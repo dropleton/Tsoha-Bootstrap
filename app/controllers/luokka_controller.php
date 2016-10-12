@@ -62,6 +62,21 @@ class LuokkaController extends BaseController {
     
     public function destroy($id) {
         $luokka = new Luokka(array('id' => $id));
+        $note_ids = $luokka->find_notes($id);
+        foreach($note_ids as $noteid) {
+            $note = new Note(array('id' => $noteid));
+            //katsotaan, kuuluuko kyseinen muistiinpano muihin luokkiin
+            $other_classes = $note->check_classes();
+            //poistetaan näistä muista luokista poistettava luokka
+            $key = array_search($id, $other_classes);
+            unset($other_classes[$key]);
+            //jos muut luokat jää tyhjäksi..
+            if(empty($other_classes)) {
+                //poistetaan kyseinen muistiinpano
+                $note->delete();
+            }
+            //muutoin poistetaan pelkkä luokka
+        }
         $luokka->delete();
         //luokan viitteen poistaminen muistiinpanoista?
         Redirect::to('/luokat', array('message' => 'Luokka poistettu onnistuneesti'));

@@ -43,13 +43,13 @@ class Luokka extends BaseModel {
         }
         return null;
     }
-    
+
     public static function find_notes($luokkaid) {
         $query = DB::connection()->prepare('SELECT muistiinpano_id FROM Liitostaulu WHERE luokka_id = :id;');
         $query->execute(array('id' => $luokkaid));
         $rows = $query->fetchAll();
         $notes = array();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $notes[] = $row['muistiinpano_id'];
         }
         return $notes;
@@ -71,8 +71,15 @@ class Luokka extends BaseModel {
     }
 
     public function delete() {
+        $this->remove_notes();
         $query = DB::connection()->prepare('DELETE FROM Luokka WHERE id = :id;');
         $query->execute(array('id' => $this->id));
+    }
+
+    public function remove_notes() {
+        $query = DB::connection()->prepare('DELETE FROM Liitostaulu '
+                . 'WHERE luokka_id = :luokka_id;');
+        $query->execute(array('luokka_id' => $this->id));
     }
 
 }
