@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+
 {% if user_logged_in %}
-<h1>Käyttäjän {{user_logged_in.kayttajatunnus}} muistiinpanot</h1>
+<h1>Käyttäjän {{user_logged_in.kayttajatunnus}} kaikki muistiinpanot</h1>
 {% endif %}
 
 <p>
@@ -9,17 +10,11 @@
     <a href="{{base_path}}/luokka/new" class="btn btn-default">Luo uusi luokka</a>
 </p>
 
-{% for luokka in luokat %}
-<h2>
-    <a href="{{base_path}}/luokka/{{luokka.id}}">{{luokka.nimi}}</a>
-</h2>
-
 <table style="width:100%" class="table-striped table-bordered">
     <thead>
         <tr>
             <th>Otsikko</th>
             <th>Prioriteetti</th>
-            <th>Luokat</th>
         </tr>
     </thead>
     <tbody>
@@ -27,15 +22,9 @@
         <tr>
             <td><a href="{{base_path}}/note/{{note.id}}">{{note.otsikko}}</a></td>
             <td>{{note.prioriteetti}}</td>
-            
-            {% for luokka in note.luokat %}
-            <td>{{note.luokat[0]}}</td>
-            {% endfor %}          
-
         </tr>
         {% endfor %}
     </tbody>
 </table>
-{% endfor %}
 
 {% endblock %}

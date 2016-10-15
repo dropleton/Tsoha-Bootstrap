@@ -6,8 +6,7 @@ class NoteController extends BaseController {
         self::check_logged_in();
         $kayttaja_id = $_SESSION['user'];
         $notes = Note::all($kayttaja_id);
-        $luokat = Luokka::all($kayttaja_id);
-        View::make('note/note_list.html', array('notes' => $notes, 'luokat' => $luokat));
+        View::make('note/note_list.html', array('notes' => $notes));
     }
 
     public static function show($id) {
