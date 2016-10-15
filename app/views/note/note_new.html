@@ -35,6 +35,7 @@
     <div>
         <label>Valitse luokat</label>
         <p>Valitse luokat, joihin muistiinpano kuuluu. Valitaksesi useita pidä ctrl-näppäin pohjassa.</p>
+        <p>Jos luokkia ei kentässä vielä ole, <a href="{{base_path}}/luokka/new">luo uusi luokka</a>.</p>
         <select class="form-control" name="luokat[]" multiple="">
             {% for luokka in luokat %}
             <option value="{{luokka.id}}">{{luokka.nimi}}</option>
